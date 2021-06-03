@@ -8,10 +8,15 @@ public class Fruit {
     private String name;
     private Date expirationDate;
 
-    public Fruit (Long id, String name, Date expirationDate) {
+    public Fruit(String name, Date expirationDate) {
+        this.name = name;
+        this.expirationDate = expirationDate;
+    }
+
+    public Fruit(Long id, String name, Date expirationDate) {
         this.id = id;
         this.name = name;
-        this.expirationDate= expirationDate;
+        this.expirationDate = expirationDate;
     }
 
     public Long getId() {
@@ -37,5 +42,4 @@ public class Fruit {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-
 }

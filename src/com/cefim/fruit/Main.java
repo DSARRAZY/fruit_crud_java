@@ -8,11 +8,11 @@ public class Main {
     public static void main(String[] args) {
 
         // REQUETE 1
-        FruitJbdcDao fruitJbdcDao = new FruitJbdcDao();
+       FruitJdbcDAO fruitJbdcDao = new FruitJdbcDAO();
         List<Fruit> fruitList = fruitJbdcDao.findAll();
 
         for (Fruit f: fruitList) {
-            System.out.println("ID " + f.getId() + " Fruit : " + f.getName() + " Date exp : " +f.getExpirationDate());
+            System.out.println("ID " + f.getId() + " Fruit : " + f.getName() + " Date exp : " + f.getExpirationDate());
         }
 
 //       Fruit fruit = new Fruit("Kiwi", new Date());

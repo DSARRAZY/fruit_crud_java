@@ -1,20 +1,13 @@
 package com.cefim.fruit;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FruitJbdcDao implements CrudDao<Long, Fruit> {
-
-    @Override
-    public boolean create(Fruit object) {
-        return false;
-    }
-
-    @Override
-    public Fruit findById(Long aLong) {
-        return null;
-    }
+class FruitJdbcDAO implements CrudDao<Long, Fruit> {
 
     @Override
     public List<Fruit> findAll() {
@@ -33,10 +26,22 @@ public class FruitJbdcDao implements CrudDao<Long, Fruit> {
     }
 
     private Fruit mapToFruit(ResultSet rs) throws SQLException {
-        Long id = rs.getLong ("id");
-        String name = rs.getString ("name");
+        Long id = rs.getLong("id");
+        String name = rs.getString("name");
         Date date = rs.getDate("expirationDate");
         return new Fruit(id, name, date);
+    }
+
+    @Override
+    public boolean create(Fruit object) {
+        return false;
+    }
+
+    @Override
+    public Fruit findById(Long id) {
+        String query = "SELECT * FROM fruits WHERE id = ?";
+
+        return null;
     }
 
     @Override
