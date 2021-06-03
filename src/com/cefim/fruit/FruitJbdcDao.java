@@ -78,12 +78,50 @@ class FruitJdbcDAO implements CrudDao<Long, Fruit> {
     }
 
     @Override
-    public boolean update(Fruit object) {
-        return false;
+    public boolean update(Fruit fruitToUpdate) {
+        int updateRows = 0;
+        String query = "UPDATE fruit SET name=?, expirationDate = ? WHERE id=?";
+        Connection connection = ConnectionManager.getConnection();
+        try(PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, fruitToUpdate.getName());
+            pst.setObject(2, fruitToUpdate.getExpirationDate());
+            pst.setLong(3, fruitToUpdate.getId());
+            pst.execute();
+
+            updateRows = pst.executeUpdate();
+
+            // Fetching inserted id
+            connection.commit();
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return updateRows > 0;
     }
 
     @Override
-    public boolean delete(Long aLong) {
-        return false;
+    public boolean delete(Long id){
+        boolean isDeleted = false;
+        String query = "DELETE FROM fruit WHERE id = ?";
+        Connection connection = ConnectionManager.getConnection();
+        try(PreparedStatement pst= ConnectionManager.getConnection().prepareStatement(query) ) {
+            pst.setLong(1, id);
+            isDeleted = pst.execute();
+            connection.commit();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e2){
+                e2.printStackTrace();
+            }
+        }
+        return isDeleted;
+
     }
 }

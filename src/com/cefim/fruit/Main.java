@@ -18,9 +18,20 @@ public class Main {
 
         // REQUETE CREATE
         Fruit fruit = new Fruit("Kiwi", LocalDate.now());
-        Fruit fruitCreated = fruitJbdcDao.create(fruit);
 
+        Fruit fruitCreated = fruitJbdcDao.create(fruit);
         System.out.println("Le nouveau fruit avec l'id " + fruitCreated.getId()+ " a été ajouté");
+
+        // REQUETE UPDATE
+        fruitCreated.setName("UPDATED FRUIT");
+        boolean updateOk = fruitJbdcDao.update(fruitCreated);
+        if (updateOk) {
+            System.out.println("le fruit avec id : " + fruitCreated.getId() + "a été MAJ");
+        }
+
+        // REQUETE DELETE
+        fruitJbdcDao.delete(13L);
+
 
         ConnectionManager.closeConnection();
 
