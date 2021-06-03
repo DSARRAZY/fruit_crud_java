@@ -17,8 +17,10 @@ public class Main {
         }
 
         // REQUETE CREATE
-       Fruit fruit = new Fruit("Kiwi", LocalDate.now());
-       fruitJbdcDao.create(fruit);
+        Fruit fruit = new Fruit("Kiwi", LocalDate.now());
+        Fruit fruitCreated = fruitJbdcDao.create(fruit);
+
+        System.out.println("Le nouveau fruit avec l'id " + fruitCreated.getId()+ " a été ajouté");
 
         ConnectionManager.closeConnection();
 

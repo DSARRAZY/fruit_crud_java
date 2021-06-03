@@ -23,7 +23,7 @@ public final class ConnectionManager {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
                 connection.setAutoCommit(false);
             } catch (SQLException e) {
-                throw  new RuntimeException("Cannot open connection");
+                throw new RuntimeException("Cannot open connection");
             }
         }
         return connection;

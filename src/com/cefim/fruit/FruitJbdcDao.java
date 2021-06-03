@@ -32,12 +32,19 @@ class FruitJdbcDAO implements CrudDao<Long, Fruit> {
 
     @Override
     public Fruit create(Fruit fruitToCreate) {
+        Fruit createdFruit = null;
         String query = "INSERT INTO fruit (name, expirationDate) VALUES (?, ?)";
         Connection connection = ConnectionManager.getConnection();
-        try(PreparedStatement pst = connection.prepareStatement(query)) {
+        try(PreparedStatement pst = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, fruitToCreate.getName());
             pst.setObject(2, fruitToCreate.getExpirationDate());
             pst.execute();
+
+            ResultSet resultSet = pst.getGeneratedKeys();
+            resultSet.next();
+            Long id = resultSet.getLong(1);
+
+            createdFruit = findById(id);
 
             // Fetching inserted id
             connection.commit();
@@ -50,14 +57,24 @@ class FruitJdbcDAO implements CrudDao<Long, Fruit> {
                 e2.printStackTrace();
             }
         }
-        return null;
+        return createdFruit;
     }
 
     @Override
     public Fruit findById(Long id) {
-        String query = "SELECT * FROM fruits WHERE id = ?";
+        String query = "SELECT * FROM fruit WHERE id = ?";
+        Fruit foundFruit = null;
+        try(PreparedStatement pst= ConnectionManager.getConnection().prepareStatement(query) ) {
+        pst.setLong(1, id);
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            foundFruit = mapToFruit(rs);
+            }
 
-        return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foundFruit;
     }
 
     @Override
