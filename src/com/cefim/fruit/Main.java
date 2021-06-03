@@ -1,13 +1,14 @@
 package com.cefim.fruit;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
-        // REQUETE 1
+        // REQUETE READ
        FruitJdbcDAO fruitJbdcDao = new FruitJdbcDAO();
         List<Fruit> fruitList = fruitJbdcDao.findAll();
 
@@ -15,10 +16,9 @@ public class Main {
             System.out.println("ID " + f.getId() + " Fruit : " + f.getName() + " Date exp : " + f.getExpirationDate());
         }
 
-//       Fruit fruit = new Fruit("Kiwi", new Date());
-//       FruitJbdcDao.create(fruit);
-
-
+        // REQUETE CREATE
+       Fruit fruit = new Fruit("Kiwi", LocalDate.now());
+       fruitJbdcDao.create(fruit);
 
         ConnectionManager.closeConnection();
 

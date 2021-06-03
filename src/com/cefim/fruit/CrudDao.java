@@ -1,10 +1,11 @@
 package com.cefim.fruit;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CrudDao<ID, T> {
 
-    boolean create(T object);
+    T create(T object) throws SQLException;
 
     T findById(ID id);
 

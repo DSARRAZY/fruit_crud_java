@@ -1,19 +1,20 @@
 package com.cefim.fruit;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class Fruit {
 
     private Long id;
     private String name;
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
-    public Fruit(String name, Date expirationDate) {
+    public Fruit(String name, LocalDate expirationDate) {
         this.name = name;
         this.expirationDate = expirationDate;
     }
 
-    public Fruit(Long id, String name, Date expirationDate) {
+    public Fruit(Long id, String name, LocalDate expirationDate) {
         this.id = id;
         this.name = name;
         this.expirationDate = expirationDate;
@@ -35,11 +36,11 @@ public class Fruit {
         this.name = name;
     }
 
-    public Date getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 }

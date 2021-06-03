@@ -1,9 +1,7 @@
 package com.cefim.fruit;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +26,31 @@ class FruitJdbcDAO implements CrudDao<Long, Fruit> {
     private Fruit mapToFruit(ResultSet rs) throws SQLException {
         Long id = rs.getLong("id");
         String name = rs.getString("name");
-        Date date = rs.getDate("expirationDate");
+        LocalDate date = rs.getObject("expirationDate", LocalDate.class);
         return new Fruit(id, name, date);
     }
 
     @Override
-    public boolean create(Fruit object) {
-        return false;
+    public Fruit create(Fruit fruitToCreate) {
+        String query = "INSERT INTO fruit (name, expirationDate) VALUES (?, ?)";
+        Connection connection = ConnectionManager.getConnection();
+        try(PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, fruitToCreate.getName());
+            pst.setObject(2, fruitToCreate.getExpirationDate());
+            pst.execute();
+
+            // Fetching inserted id
+            connection.commit();
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
